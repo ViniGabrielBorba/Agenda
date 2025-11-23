@@ -131,9 +131,14 @@ npm run dev
 
 Para receber notificações no WhatsApp quando houver novos agendamentos:
 
-1. Siga o guia em `server/INICIO_RAPIDO_WHATSAPP.md`
-2. Configure uma API WhatsApp (Evolution API recomendado - gratuito)
-3. Adicione as credenciais no `server/.env`
+**👉 Comece aqui:** `server/PASSO_A_PASSO_WHATSAPP.md` (Guia mais fácil!)
+
+Ou veja os outros guias:
+- `server/COMO_USAR_EVOLUTION_API.md` - Baseado na documentação oficial
+- `server/CONFIGURAR_EVOLUTION_API.md` - Guia completo
+- `server/INICIO_RAPIDO_WHATSAPP.md` - Início rápido
+
+**Recomendado:** Evolution API (gratuito e fácil de usar)
 
 ## 📁 Estrutura do Projeto
 
