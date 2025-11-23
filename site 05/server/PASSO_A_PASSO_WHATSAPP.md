@@ -5,20 +5,68 @@ Configurar o sistema para enviar mensagens reais no WhatsApp quando alguém agen
 
 ---
 
-## 📋 Passo 1: Criar Conta na Evolution API
+## 🤔 Antes de Começar: Qual API Escolher?
+
+**👉 Leia primeiro:** `ESCOLHER_API_WHATSAPP.md`
+
+**Resumo rápido:**
+- 🟢 **Z-API** - Mais fácil, pago (R$ 29,90/mês) ⭐ RECOMENDADO
+- 🟢 **ChatAPI** - Fácil, pago (R$ 30-50/mês)
+- 🟡 **Evolution API** - Grátis mas precisa instalar (avançado)
+
+**Para iniciantes:** Use Z-API! É o mais simples.
+
+---
+
+## 📋 Passo 1: Escolher Serviço de WhatsApp API
+
+Você tem 3 opções principais:
+
+### Opção A: Evolution API (Instalar Localmente) ⚙️
+- **Gratuito** mas requer instalação
+- Documentação: https://doc.evolution-api.com/
+- Requer servidor próprio ou VPS
+
+### Opção B: Serviço Hospedado Evolution API 💰
+- Serviços que já têm Evolution API instalada
+- Exemplos: Evolution API Cloud, Evolution Host
+- Pago mas mais fácil de usar
+
+### Opção C: Z-API ou ChatAPI (Brasil) 💰
+- Serviços brasileiros prontos
+- Z-API: https://developer.z-api.io/
+- ChatAPI: https://chatapi.com.br/
+- Mais fácil, mas pago
+
+### 🎯 Recomendação para Iniciantes:
+**Use Z-API ou ChatAPI** - São mais fáceis e já vêm prontos!
+
+---
+
+## 📋 Passo 1A: Se escolheu Z-API (Mais Fácil)
 
 ### 1.1 Acesse o site
-👉 **https://evolution-api.com/**
+👉 **https://developer.z-api.io/**
 
 ### 1.2 Crie sua conta
-- Clique em "Sign Up" ou "Criar Conta"
+- Clique em "Cadastrar" ou "Criar Conta"
 - Preencha seus dados
 - Confirme seu email
 
-### 1.3 Anote suas informações
+### 1.3 Obtenha suas credenciais
+- No painel, vá em "Tokens" ou "API"
+- Crie um novo token
+- Anote o **Client Token**
+
+### 1.4 Conecte seu WhatsApp
+- No painel, vá em "Dispositivos" ou "WhatsApp"
+- Clique em "Conectar"
+- Escaneie o QR Code com seu WhatsApp
+
+### 1.5 Anote suas informações
 Você vai precisar de:
-- ✅ **URL do servidor** (ex: `https://api.evolution-api.com`)
-- ✅ **API Key** (chave de acesso)
+- ✅ **URL da API**: `https://api.z-api.io`
+- ✅ **Client Token**: O token que você criou
 
 ---
 
