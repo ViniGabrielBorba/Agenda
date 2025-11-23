@@ -6,6 +6,7 @@ const axios = require('axios');
 /**
  * Envia mensagem via Evolution API
  * Evolution API é gratuita e open-source
+ * Documentação: https://doc.evolution-api.com/
  */
 const sendViaEvolutionAPI = async (phone, message, config) => {
   try {
@@ -17,7 +18,8 @@ const sendViaEvolutionAPI = async (phone, message, config) => {
       formattedPhone = '55' + formattedPhone;
     }
 
-    // Evolution API endpoint
+    // Evolution API endpoint - Send Text Message
+    // Documentação: https://doc.evolution-api.com/docs/api/message/send-text
     const url = `${apiUrl}/message/sendText/${instance}`;
     
     const response = await axios.post(
@@ -31,13 +33,15 @@ const sendViaEvolutionAPI = async (phone, message, config) => {
           'Content-Type': 'application/json',
           'apikey': apiKey
         },
-        timeout: 10000 // 10 segundos
+        timeout: 15000 // 15 segundos
       }
     );
 
     return { success: true, response: response.data };
   } catch (error) {
-    throw new Error(`Evolution API: ${error.response?.data?.message || error.message}`);
+    const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message;
+    const errorDetails = error.response?.data ? JSON.stringify(error.response.data, null, 2) : '';
+    throw new Error(`Evolution API: ${errorMessage}${errorDetails ? '\n' + errorDetails : ''}`);
   }
 };
 
