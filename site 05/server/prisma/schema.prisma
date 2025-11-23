@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  email         String    @unique
+  phone         String?
+  name          String
+  password      String
+  role          String    @default("CLIENT") // CLIENT, PROFESSIONAL, ADMIN
+  avatar        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relações
+  clientAppointments  Appointment[]  @relation("ClientAppointments")
+  professionalAppointments Appointment[] @relation("ProfessionalAppointments")
+  services      Service[]      @relation("ServiceProvider")
+  workingHours  WorkingHours[] @relation("WorkingHours")
+  blockedTimes  BlockedTime[]  @relation("BlockedTimes")
+  
+  @@index([phone])
+  @@map("users")
+}
+
+model Service {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  description   String?
+  duration      Int       // duração em minutos
+  price         Float
+  professionalId String   @db.ObjectId
+  professional  User      @relation("ServiceProvider", fields: [professionalId], references: [id], onDelete: Cascade)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relações
+  appointments  Appointment[]
+  
+  @@index([professionalId])
+}
+
+model WorkingHours {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  professionalId String   @db.ObjectId
+  professional  User      @relation("WorkingHours", fields: [professionalId], references: [id], onDelete: Cascade)
+  dayOfWeek     Int       // 0 = Domingo, 1 = Segunda, ..., 6 = Sábado
+  startTime     String    // formato HH:mm
+  endTime       String    // formato HH:mm
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@unique([professionalId, dayOfWeek])
+  @@index([professionalId])
+  @@map("working_hours")
+}
+
+model BlockedTime {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  professionalId String   @db.ObjectId
+  professional  User      @relation("BlockedTimes", fields: [professionalId], references: [id], onDelete: Cascade)
+  startDateTime DateTime
+  endDateTime   DateTime
+  reason        String?
+  createdAt     DateTime  @default(now())
+  
+  @@index([professionalId, startDateTime])
+  @@map("blocked_times")
+}
+
+model Appointment {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  clientId      String   @db.ObjectId
+  client        User      @relation("ClientAppointments", fields: [clientId], references: [id], onDelete: Cascade)
+  serviceId     String   @db.ObjectId
+  service       Service   @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  professionalId String   @db.ObjectId
+  professional  User      @relation("ProfessionalAppointments", fields: [professionalId], references: [id], onDelete: Restrict)
+  startTime     DateTime
+  endTime       DateTime
+  status        String    @default("PENDING") // PENDING, CONFIRMED, COMPLETED, CANCELLED
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relações
+  payment       Payment?
+  
+  @@index([clientId])
+  @@index([professionalId])
+  @@index([startTime])
+  @@index([status])
+  @@map("appointments")
+}
+
+model Payment {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  appointmentId String    @unique @db.ObjectId
+  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  amount        Float
+  method        String    // PIX, CREDIT_CARD, DEBIT_CARD, CASH
+  status        String    @default("PENDING") // PENDING, PAID, REFUNDED, FAILED
+  transactionId String?   // ID da transação do gateway
+  paidAt        DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@index([status])
+  @@index([transactionId])
+  @@map("payments")
+}
+

@@ -1,0 +1,49 @@
+INSTRUÇÕES PARA ADICIONAR AO .env:
+
+Copie e cole estas linhas no final do arquivo server/.env:
+
+# WhatsApp Configuration - Modo de Teste
+# Para ativar com uma API real, descomente e configure:
+# WHATSAPP_API_URL=https://sua-api-whatsapp.com
+# WHATSAPP_API_KEY=sua_chave_api
+# WHATSAPP_INSTANCE=default
+PROFESSIONAL_WHATSAPP=+5581994201799
+
+===========================================
+
+OPÇÕES DE API WHATSAPP:
+
+1. EVOLUTION API (Gratuito - Recomendado)
+   - Site: https://evolution-api.com/
+   - Documentação: https://doc.evolution-api.com/
+   - Configure:
+     WHATSAPP_API_URL=https://sua-evolution-api.com
+     WHATSAPP_API_KEY=sua_chave_api
+     WHATSAPP_INSTANCE=nome_da_instancia
+
+2. Z-API (Brasil - Pago)
+   - Site: https://developer.z-api.io/
+   - Configure:
+     WHATSAPP_API_URL=https://api.z-api.io
+     WHATSAPP_API_KEY=seu_client_token
+
+3. CHATAPI (Brasil - Pago)
+   - Site: https://chatapi.com.br/
+   - Configure:
+     WHATSAPP_API_URL=https://api.chatapi.com.br
+     WHATSAPP_API_KEY=seu_token
+
+===========================================
+
+MODO DE TESTE:
+- Se não configurar uma API, o sistema funcionará em modo simulado
+- As mensagens aparecerão apenas nos logs do servidor
+- Isso permite testar o sistema sem custos
+
+===========================================
+
+APÓS CONFIGURAR:
+1. Reinicie o servidor
+2. Faça um agendamento de teste
+3. Verifique se recebeu a notificação no WhatsApp
+

@@ -1,0 +1,49 @@
+═══════════════════════════════════════════════════════════════
+  SISTEMA DE AGENDAMENTO ONLINE - INÍCIO RÁPIDO
+═══════════════════════════════════════════════════════════════
+
+✅ DEPENDÊNCIAS INSTALADAS!
+
+Próximos passos:
+
+1. CONFIGURE O BANCO DE DADOS POSTGRESQL
+   - Instale PostgreSQL (se não tiver)
+   - Crie o banco: CREATE DATABASE agendamento_db;
+
+2. CRIE OS ARQUIVOS DE CONFIGURAÇÃO
+
+   server/.env:
+   ────────────────────────────────────────────────────────────
+   DATABASE_URL="postgresql://postgres:SUA_SENHA@localhost:5432/agendamento_db?schema=public"
+   JWT_SECRET="sua_chave_secreta_123456789"
+   JWT_EXPIRES_IN="7d"
+   PORT=5000
+   NODE_ENV=development
+   FRONTEND_URL=http://localhost:3000
+   ────────────────────────────────────────────────────────────
+
+   client/.env.local:
+   ────────────────────────────────────────────────────────────
+   NEXT_PUBLIC_API_URL=http://localhost:5000/api
+   ────────────────────────────────────────────────────────────
+
+3. EXECUTE AS MIGRATIONS
+   cd server
+   npm run migrate
+
+4. INICIE O SISTEMA
+   npm run dev
+
+5. ACESSE
+   Frontend: http://localhost:3000
+   Backend:  http://localhost:5000/api
+
+═══════════════════════════════════════════════════════════════
+
+Para mais detalhes, consulte:
+- SETUP.md (configuração detalhada)
+- README.md (documentação completa)
+- QUICK_START.md (guia rápido)
+
+═══════════════════════════════════════════════════════════════
+
