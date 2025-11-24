@@ -4,7 +4,9 @@ const nextConfig = {
   output: 'standalone',
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    ...(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && {
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    })
   },
   // Desabilitar service worker em desenvolvimento
   webpack: (config, { dev, isServer }) => {
