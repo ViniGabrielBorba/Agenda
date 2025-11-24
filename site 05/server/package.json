@@ -1,19 +1,19 @@
 {
-  "name": "agendamento-backend",
+  "name": "flowgest-backend",
   "version": "1.0.0",
-  "description": "Backend API para sistema de agendamento",
+  "description": "Backend API para FlowGest - Sistema de Agendamento",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
     "start": "node index.js",
-    "migrate": "npx prisma migrate dev",
-    "generate": "npx prisma generate",
-    "studio": "npx prisma studio",
-    "test:whatsapp": "node test-evolution-api.js"
+    "dev": "nodemon index.js",
+    "migrate": "npx prisma db push"
   },
+  "keywords": ["agendamento", "api", "nodejs"],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.7.1",
-    "axios": "^1.13.2",
+    "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -24,11 +24,13 @@
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.7",
-    "prisma": "^5.7.1",
-    "stripe": "^14.7.0"
+    "prisma": "^5.7.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2",
-    "open": "^11.0.0"
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }
