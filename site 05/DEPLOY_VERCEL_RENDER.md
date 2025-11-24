@@ -116,10 +116,12 @@ Certifique-se de que o `server/package.json` tem:
 2. Importe o repositório: `ViniGabrielBorba/Agenda`
 3. Configure o projeto:
    - **Framework Preset:** `Next.js`
-   - **Root Directory:** `client`
+   - **Root Directory:** `client` ⚠️ **MUITO IMPORTANTE!**
    - **Build Command:** `npm run build` (deve estar automático)
    - **Output Directory:** `.next` (deve estar automático)
    - **Install Command:** `npm install`
+   
+   ⚠️ **ATENÇÃO:** Se o Root Directory não estiver como `client`, o Vercel tentará usar o diretório raiz e causará erro de espaço no nome da função serverless!
 
 ### Passo 3: Configurar Variáveis de Ambiente
 No Vercel, vá em **"Settings"** → **"Environment Variables"** e adicione:
