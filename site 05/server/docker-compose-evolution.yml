@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  evolution-api:
+    image: atendai/evolution-api:latest
+    container_name: evolution_api
+    ports:
+      - "8080:8080"
+    environment:
+      - AUTHENTICATION_API_KEY=FlowGest2024SecretKey!
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://evolution_user:evolution_pass@postgres:5432/evolution_db
+      - REDIS_ENABLED=true
+      - REDIS_URI=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: evolution_postgres
+    environment:
+      - POSTGRES_USER=evolution_user
+      - POSTGRES_PASSWORD=evolution_pass
+      - POSTGRES_DB=evolution_db
+    volumes:
+      - evolution_postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: evolution_redis
+    restart: unless-stopped
+
+volumes:
+  evolution_postgres_data:
+

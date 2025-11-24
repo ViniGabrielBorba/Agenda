@@ -1,0 +1,59 @@
+╔══════════════════════════════════════════════════════════════╗
+║     ✅ CONFIGURAÇÃO COMPLETA - EVOLUTION API                 ║
+╚══════════════════════════════════════════════════════════════╝
+
+✅ O QUE JÁ ESTÁ CONFIGURADO:
+
+1. Evolution API rodando no Docker (porta 8080)
+2. Instância "flowgest" criada
+3. Arquivo .env configurado com:
+   - WHATSAPP_PROVIDER=evolution
+   - WHATSAPP_API_URL=http://localhost:8080
+   - WHATSAPP_API_KEY=FlowGest2024SecretKey!
+   - WHATSAPP_INSTANCE=flowgest
+   - PROFESSIONAL_WHATSAPP=+5581994201799
+
+═══════════════════════════════════════════════════════════════
+
+📱 PRÓXIMO PASSO: CONECTAR WHATSAPP
+
+1. Acesse no navegador:
+   👉 http://localhost:8080/instance/connect/flowgest
+
+2. Escaneie o QR Code:
+   - Abra WhatsApp no celular
+   - Configurações → Aparelhos conectados
+   - "Conectar um aparelho"
+   - Escaneie o QR Code
+
+═══════════════════════════════════════════════════════════════
+
+🧪 TESTAR:
+
+cd server
+npm run test:whatsapp
+
+Você deve receber uma mensagem de teste no WhatsApp!
+
+═══════════════════════════════════════════════════════════════
+
+🚀 COMANDOS ÚTEIS:
+
+Ver se está rodando:
+  docker ps
+
+Parar Evolution API:
+  cd server
+  docker-compose -f docker-compose-evolution.yml stop
+
+Iniciar Evolution API:
+  cd server
+  docker-compose -f docker-compose-evolution.yml start
+
+Ver logs:
+  docker logs evolution_api
+
+═══════════════════════════════════════════════════════════════
+
+✅ TUDO PRONTO! Só falta conectar o WhatsApp! 🎉
+

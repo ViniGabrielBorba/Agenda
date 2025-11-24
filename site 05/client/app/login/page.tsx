@@ -48,12 +48,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center gradient-soft py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brown-100 via-brown-100 to-brown-200 dark:from-gray-900 dark:via-brown-900 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Decoração de fundo */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-brown-400 dark:bg-brown-900 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brown-500 dark:bg-purple-900 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brown-300 dark:bg-brown-800 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
       <div className="max-w-md w-full space-y-8 relative z-10">
@@ -64,29 +64,29 @@ export default function LoginPage() {
               <span className="text-white text-3xl font-bold font-display">FG</span>
             </div>
           </div>
-          <h2 className="text-4xl font-display font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-display font-bold bg-gradient-to-r from-brown-700 to-brown-800 dark:from-brown-500 dark:to-brown-600 bg-clip-text text-transparent">
             FlowGest
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Seu salão de beleza na palma da mão
           </p>
         </div>
 
         <div className="card-elegant p-8">
           <div className="mb-6">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-2">Bem-vinda de volta!</h3>
-            <p className="text-gray-600 text-sm">Entre para continuar agendando seus serviços</p>
+            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Bem-vinda de volta!</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">Entre para continuar agendando seus serviços</p>
           </div>
 
           {/* Tabs de Login */}
-          <div className="mb-6 flex space-x-2 bg-pink-50 rounded-lg p-1">
+          <div className="mb-6 flex space-x-2 bg-brown-100 dark:bg-gray-700 rounded-lg p-1">
             <button
               type="button"
               onClick={() => setLoginMethod('email')}
               className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
                 loginMethod === 'email'
-                  ? 'bg-white text-pink-600 shadow-sm'
-                  : 'text-gray-600 hover:text-pink-600'
+                  ? 'bg-white dark:bg-gray-800 text-brown-700 dark:text-brown-500 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-brown-700 dark:hover:text-brown-500'
               }`}
             >
               📧 Email
@@ -96,8 +96,8 @@ export default function LoginPage() {
               onClick={() => setLoginMethod('phone')}
               className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
                 loginMethod === 'phone'
-                  ? 'bg-white text-pink-600 shadow-sm'
-                  : 'text-gray-600 hover:text-pink-600'
+                  ? 'bg-white dark:bg-gray-800 text-brown-700 dark:text-brown-500 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-brown-700 dark:hover:text-brown-500'
               }`}
             >
               📱 Telefone
@@ -107,7 +107,7 @@ export default function LoginPage() {
           <form className="space-y-5" onSubmit={handleSubmit}>
             {loginMethod === 'email' ? (
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email
                 </label>
                 <input
@@ -116,7 +116,7 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                  className="w-full px-4 py-3 border border-brown-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -124,7 +124,7 @@ export default function LoginPage() {
               </div>
             ) : (
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Telefone
                 </label>
                 <input
@@ -133,7 +133,7 @@ export default function LoginPage() {
                   type="tel"
                   autoComplete="tel"
                   required
-                  className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                  className="w-full px-4 py-3 border border-brown-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                   placeholder="(11) 99999-9999"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
@@ -142,7 +142,7 @@ export default function LoginPage() {
             )}
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Senha
               </label>
               <input
@@ -151,7 +151,7 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                className="w-full px-4 py-3 border border-brown-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                 placeholder="Sua senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -178,42 +178,20 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Ainda não tem uma conta?{' '}
-              <Link href="/register" className="font-semibold text-pink-600 hover:text-pink-700 transition-colors">
+              <Link href="/register" className="font-semibold text-brown-700 dark:text-brown-500 hover:text-brown-700 dark:hover:text-brown-400 transition-colors">
                 Cadastre-se aqui
               </Link>
             </p>
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-500">
+        <p className="text-center text-xs text-gray-500 dark:text-gray-400">
           ✨ Agendamentos fáceis e elegantes para você
         </p>
       </div>
 
-      <style jsx>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </div>
   )
 }

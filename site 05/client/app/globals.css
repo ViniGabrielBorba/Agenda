@@ -4,8 +4,8 @@
 
 :root {
   --foreground-rgb: 51, 51, 51;
-  --background-start-rgb: 253, 242, 248;
-  --background-end-rgb: 250, 245, 255;
+  --background-start-rgb: 250, 248, 245;
+  --background-end-rgb: 245, 240, 232;
 }
 
 * {
@@ -24,22 +24,23 @@ body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       135deg,
-      rgb(253, 242, 248) 0%,
-      rgb(250, 245, 255) 50%,
-      rgb(253, 242, 248) 100%
+      rgb(250, 248, 245) 0%,
+      rgb(245, 240, 232) 50%,
+      rgb(250, 248, 245) 100%
     );
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 .dark body {
   background: linear-gradient(
       135deg,
-      rgb(30, 30, 46) 0%,
-      rgb(24, 24, 37) 50%,
-      rgb(30, 30, 46) 100%
+      rgb(30, 25, 20) 0%,
+      rgb(25, 20, 15) 50%,
+      rgb(30, 25, 20) 100%
     );
-  color: rgb(243, 244, 246);
+  color: rgb(245, 240, 232);
 }
 
 a {
@@ -53,23 +54,29 @@ a {
   }
   
   .gradient-pink {
-    background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+    background: linear-gradient(135deg, #a67c52 0%, #c4a48f 100%);
   }
   
   .gradient-soft {
-    background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%);
+    background: linear-gradient(135deg, #f5ede3 0%, #faf0e0 100%);
   }
   
   .card-elegant {
-    @apply bg-white dark:bg-gray-800 rounded-3xl shadow-elegant border border-pink-100 dark:border-purple-900/50 backdrop-blur-sm;
+    @apply bg-white dark:bg-gray-800 rounded-3xl border border-brown-200 dark:border-brown-900/50 backdrop-blur-sm;
+    box-shadow: 0 10px 40px -10px rgba(107, 68, 35, 0.3);
   }
   
   .card-soft {
-    @apply bg-white dark:bg-gray-800 rounded-2xl shadow-soft border border-pink-50 dark:border-purple-900/30 backdrop-blur-sm;
+    @apply bg-white dark:bg-gray-800 rounded-2xl border border-brown-100 dark:border-brown-900/30 backdrop-blur-sm;
+    box-shadow: 0 2px 15px -3px rgba(107, 68, 35, 0.1), 0 10px 20px -2px rgba(107, 68, 35, 0.1);
   }
   
-  .gradient-soft {
-    @apply bg-gradient-to-br from-pink-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900;
+  .shadow-elegant {
+    box-shadow: 0 10px 40px -10px rgba(107, 68, 35, 0.3);
+  }
+  
+  .shadow-soft {
+    box-shadow: 0 2px 15px -3px rgba(107, 68, 35, 0.1), 0 10px 20px -2px rgba(107, 68, 35, 0.1);
   }
   
   @keyframes fadeInUp {
@@ -85,6 +92,30 @@ a {
   
   .animate-fade-in-up {
     animation: fadeInUp 0.5s ease-out forwards;
+  }
+  
+  @keyframes blob {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+  
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
   }
 }
 

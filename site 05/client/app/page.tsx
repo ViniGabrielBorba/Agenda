@@ -24,7 +24,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center gradient-soft">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brown-700"></div>
       </div>
     )
   }
@@ -33,8 +33,8 @@ export default function Home() {
     <div className="min-h-screen gradient-soft">
       {/* Decoração de fundo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brown-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-brown-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
       </div>
 
       <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
@@ -44,12 +44,12 @@ export default function Home() {
               <div className="w-12 h-12 gradient-pink rounded-xl flex items-center justify-center shadow-elegant mr-3">
                 <span className="text-white text-xl font-bold font-display">FG</span>
               </div>
-              <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-brown-700 to-brown-800 bg-clip-text text-transparent">
                 FlowGest
               </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/login" className="text-gray-700 hover:text-pink-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+              <Link href="/login" className="text-gray-700 hover:text-brown-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                 Entrar
               </Link>
               <Link href="/register" className="gradient-pink text-white px-6 py-2 rounded-xl text-sm font-semibold hover:shadow-elegant transition-all">
@@ -64,7 +64,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-display font-bold text-gray-900 mb-6">
             Seu salão de beleza
-            <span className="block bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-brown-700 to-brown-800 bg-clip-text text-transparent">
               na palma da mão
             </span>
           </h2>
@@ -81,7 +81,7 @@ export default function Home() {
             </Link>
             <Link 
               href="/login" 
-              className="bg-white text-pink-600 px-8 py-4 rounded-xl font-semibold border-2 border-pink-200 hover:border-pink-300 transition-all text-lg"
+              className="bg-white text-brown-700 px-8 py-4 rounded-xl font-semibold border-2 border-brown-300 hover:border-brown-400 transition-all text-lg"
             >
               Já tenho conta
             </Link>

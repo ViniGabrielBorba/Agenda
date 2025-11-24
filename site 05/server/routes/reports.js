@@ -253,5 +253,214 @@ router.get('/stats', authenticate, authorize('PROFESSIONAL', 'ADMIN'), async (re
   }
 });
 
+// Dashboard Analytics Avançado
+router.get('/analytics', authenticate, authorize('PROFESSIONAL', 'ADMIN'), async (req, res) => {
+  try {
+    const { startDate, endDate, period = 'month' } = req.query; // period: 'day', 'week', 'month'
+    const where = req.user.role === 'PROFESSIONAL' 
+      ? { professionalId: req.user.id }
+      : {};
+
+    // Definir período padrão (últimos 30 dias se não especificado)
+    const defaultStartDate = new Date();
+    defaultStartDate.setDate(defaultStartDate.getDate() - 30);
+    const start = startDate ? new Date(startDate) : defaultStartDate;
+    const end = endDate ? new Date(endDate) : new Date();
+
+    where.startTime = {
+      gte: start,
+      lte: end
+    };
+
+    // Receita ao longo do tempo
+    const appointments = await prisma.appointment.findMany({
+      where: {
+        ...where,
+        status: { in: ['COMPLETED', 'CONFIRMED'] }
+      },
+      include: {
+        service: {
+          select: {
+            price: true
+          }
+        },
+        payment: {
+          select: {
+            amount: true,
+            status: true
+          }
+        }
+      },
+      orderBy: {
+        startTime: 'asc'
+      }
+    });
+
+    // Agrupar por período
+    const revenueByPeriod = {};
+    const appointmentsByPeriod = {};
+    const servicesByPeriod = {};
+
+    appointments.forEach(apt => {
+      const date = new Date(apt.startTime);
+      let key;
+      
+      if (period === 'day') {
+        key = date.toISOString().split('T')[0]; // YYYY-MM-DD
+      } else if (period === 'week') {
+        const weekStart = new Date(date);
+        weekStart.setDate(date.getDate() - date.getDay());
+        key = weekStart.toISOString().split('T')[0];
+      } else {
+        key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`; // YYYY-MM
+      }
+
+      const revenue = apt.payment?.status === 'PAID' 
+        ? apt.payment.amount 
+        : apt.service.price;
+
+      revenueByPeriod[key] = (revenueByPeriod[key] || 0) + revenue;
+      appointmentsByPeriod[key] = (appointmentsByPeriod[key] || 0) + 1;
+      
+      if (!servicesByPeriod[key]) {
+        servicesByPeriod[key] = {};
+      }
+      servicesByPeriod[key][apt.serviceId] = (servicesByPeriod[key][apt.serviceId] || 0) + 1;
+    });
+
+    // Horários mais procurados
+    const hourStats = {};
+    appointments.forEach(apt => {
+      const hour = new Date(apt.startTime).getHours();
+      hourStats[hour] = (hourStats[hour] || 0) + 1;
+    });
+
+    const popularHours = Object.entries(hourStats)
+      .map(([hour, count]) => ({ hour: parseInt(hour), count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    // Taxa de cancelamento
+    const totalAppointments = await prisma.appointment.count({ where });
+    const cancelledAppointments = await prisma.appointment.count({
+      where: { ...where, status: 'CANCELLED' }
+    });
+    const cancellationRate = totalAppointments > 0 
+      ? (cancelledAppointments / totalAppointments) * 100 
+      : 0;
+
+    // Clientes novos vs recorrentes
+    const clientStats = await prisma.appointment.groupBy({
+      by: ['clientId'],
+      where,
+      _count: {
+        id: true
+      }
+    });
+
+    const newClients = clientStats.filter(c => c._count.id === 1).length;
+    const recurringClients = clientStats.filter(c => c._count.id > 1).length;
+
+    // Previsão de receita (baseada na média dos últimos períodos)
+    const revenueValues = Object.values(revenueByPeriod);
+    const avgRevenue = revenueValues.length > 0
+      ? revenueValues.reduce((a, b) => a + b, 0) / revenueValues.length
+      : 0;
+
+    res.json({
+      revenue: {
+        total: Object.values(revenueByPeriod).reduce((a, b) => a + b, 0),
+        byPeriod: revenueByPeriod,
+        average: avgRevenue,
+        forecast: avgRevenue * 1.1 // Previsão otimista (+10%)
+      },
+      appointments: {
+        total: totalAppointments,
+        byPeriod: appointmentsByPeriod,
+        cancelled: cancelledAppointments,
+        cancellationRate: parseFloat(cancellationRate.toFixed(2))
+      },
+      clients: {
+        new: newClients,
+        recurring: recurringClients,
+        total: clientStats.length
+      },
+      popularHours,
+      period: {
+        start: start.toISOString(),
+        end: end.toISOString(),
+        type: period
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao gerar analytics:', error);
+    res.status(500).json({ message: 'Erro ao gerar analytics', error: error.message });
+  }
+});
+
+// Relatório de horários mais procurados
+router.get('/popular-hours', authenticate, authorize('PROFESSIONAL', 'ADMIN'), async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    const where = {
+      status: { not: 'CANCELLED' },
+      ...(req.user.role === 'PROFESSIONAL' && { professionalId: req.user.id })
+    };
+
+    if (startDate) {
+      where.startTime = { gte: new Date(startDate) };
+    }
+    if (endDate) {
+      where.startTime = {
+        ...where.startTime,
+        lte: new Date(endDate)
+      };
+    }
+
+    const appointments = await prisma.appointment.findMany({
+      where,
+      select: {
+        startTime: true
+      }
+    });
+
+    const hourStats = {};
+    const dayStats = {};
+
+    appointments.forEach(apt => {
+      const date = new Date(apt.startTime);
+      const hour = date.getHours();
+      const day = date.getDay(); // 0 = Domingo, 6 = Sábado
+
+      hourStats[hour] = (hourStats[hour] || 0) + 1;
+      dayStats[day] = (dayStats[day] || 0) + 1;
+    });
+
+    const popularHours = Object.entries(hourStats)
+      .map(([hour, count]) => ({
+        hour: parseInt(hour),
+        hourFormatted: `${String(hour).padStart(2, '0')}:00`,
+        count
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    const popularDays = Object.entries(dayStats)
+      .map(([day, count]) => ({
+        day: parseInt(day),
+        dayName: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'][parseInt(day)],
+        count
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    res.json({
+      byHour: popularHours,
+      byDay: popularDays
+    });
+  } catch (error) {
+    console.error('Erro ao gerar relatório de horários:', error);
+    res.status(500).json({ message: 'Erro ao gerar relatório', error: error.message });
+  }
+});
+
 module.exports = router;
 

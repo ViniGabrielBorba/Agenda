@@ -12,6 +12,8 @@ const appointmentRoutes = require('./routes/appointments');
 const paymentRoutes = require('./routes/payments');
 const reportRoutes = require('./routes/reports');
 const workingHoursRoutes = require('./routes/working-hours');
+const reviewRoutes = require('./routes/reviews');
+const portfolioRoutes = require('./routes/portfolio');
 
 const app = express();
 
@@ -41,6 +43,8 @@ app.use('/api/appointments', appointmentRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/working-hours', workingHoursRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/portfolio', portfolioRoutes);
 
 // Rota de health check
 app.get('/api/health', (req, res) => {

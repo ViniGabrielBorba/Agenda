@@ -1,0 +1,20 @@
+# Configuração Z-API para FlowGest - FINAL
+
+Adicione estas linhas ao arquivo server/.env:
+
+# WhatsApp Configuration - Z-API
+WHATSAPP_PROVIDER=zapi
+WHATSAPP_API_URL=https://api.z-api.io
+WHATSAPP_API_KEY=23B770EAD3D54B9C0816D645
+WHATSAPP_INSTANCE=3EAAFE5FE9E5C1E3453A1E9814A1DE6D
+WHATSAPP_CLIENT_TOKEN=F890b1a79d33e434f9daabc2b4a9cdd43S
+PROFESSIONAL_WHATSAPP=+5581994201799
+
+IMPORTANTE:
+- WHATSAPP_API_KEY = Token da instância (usado na URL)
+- WHATSAPP_INSTANCE = ID da instância (usado na URL)
+- WHATSAPP_CLIENT_TOKEN = Client-Token (usado no header) ✅ CONFIGURADO!
+
+Depois de atualizar o .env, reinicie o backend:
+npm run dev
+

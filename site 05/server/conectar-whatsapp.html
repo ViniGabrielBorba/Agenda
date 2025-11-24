@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectar WhatsApp - FlowGest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #f3e8ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(236, 72, 153, 0.2);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #ec4899;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .qr-container {
+            background: #f9fafb;
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-code {
+            max-width: 100%;
+            height: auto;
+        }
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        .status.loading {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .btn {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .instructions {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .instructions h3 {
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .instructions ol {
+            color: #6b7280;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Conectar WhatsApp</h1>
+        <p class="subtitle">FlowGest - Evolution API</p>
+        
+        <div id="status" class="status loading">
+            Carregando QR Code...
+        </div>
+        
+        <div class="qr-container" id="qrContainer">
+            <div id="qrContent">
+                <!-- QR Code será inserido aqui -->
+            </div>
+        </div>
+        
+        <button class="btn" id="refreshBtn" onclick="loadQRCode()">
+            🔄 Atualizar QR Code
+        </button>
+        
+        <div class="instructions">
+            <h3>📋 Como conectar:</h3>
+            <ol>
+                <li>Abra o WhatsApp no seu celular</li>
+                <li>Vá em: <strong>Configurações</strong> → <strong>Aparelhos conectados</strong></li>
+                <li>Toque em <strong>"Conectar um aparelho"</strong></li>
+                <li>Escaneie o QR Code acima</li>
+                <li>Aguarde a confirmação de conexão</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080';
+        const API_KEY = 'FlowGest2024SecretKey!';
+        const INSTANCE_NAME = 'flowgest';
+
+        async function loadQRCode() {
+            const statusDiv = document.getElementById('status');
+            const qrContent = document.getElementById('qrContent');
+            const refreshBtn = document.getElementById('refreshBtn');
+            
+            statusDiv.className = 'status loading';
+            statusDiv.textContent = 'Carregando QR Code...';
+            refreshBtn.disabled = true;
+            qrContent.innerHTML = '';
+
+            try {
+                // Tentar primeiro com header apikey
+                let response = await fetch(`${API_URL}/instance/connect/${INSTANCE_NAME}`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': API_KEY,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok && response.status === 401) {
+                    // Se der 401, tentar com Authorization header
+                    response = await fetch(`${API_URL}/instance/connect/${INSTANCE_NAME}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${API_KEY}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                }
+
+                if (!response.ok && response.status === 401) {
+                    // Se ainda der 401, tentar POST para gerar QR Code
+                    response = await fetch(`${API_URL}/instance/connect/${INSTANCE_NAME}`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': API_KEY,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            qrcode: true
+                        })
+                    });
+                }
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ message: response.statusText }));
+                    throw new Error(`Erro ${response.status}: ${errorData.message || response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log('Dados recebidos:', data);
+                
+                // Verificar se realmente tem QR Code
+                if (data.count === 0 && !data.qrcode && !data.base64) {
+                    throw new Error('QR Code não disponível. A instância precisa ser reiniciada no Manager.');
+                }
+                
+                displayQRCode(data);
+            } catch (error) {
+                console.error('Erro:', error);
+                statusDiv.className = 'status error';
+                statusDiv.textContent = `Erro ao carregar QR Code: ${error.message}`;
+                qrContent.innerHTML = `
+                    <div style="padding: 25px;">
+                        <div style="background: #fef3c7; border: 2px solid #fbbf24; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                            <p style="color: #92400e; font-weight: 700; margin-bottom: 15px; font-size: 18px;">⚠️ QR Code não disponível automaticamente</p>
+                            <p style="color: #78350f; margin-bottom: 20px;">A Evolution API requer usar o Manager para gerar o QR Code. Siga os passos abaixo:</p>
+                            <ol style="color: #78350f; text-align: left; margin-left: 25px; line-height: 1.8;">
+                                <li style="margin-bottom: 10px;">Clique no botão abaixo para abrir o Evolution Manager</li>
+                                <li style="margin-bottom: 10px;">Faça login com: <code style="background: #fde68a; padding: 4px 8px; border-radius: 4px; font-weight: 600;">FlowGest2024SecretKey!</code></li>
+                                <li style="margin-bottom: 10px;">Clique na instância <strong>"flowgest"</strong></li>
+                                <li style="margin-bottom: 10px;">Clique no botão verde <strong>"RESTART"</strong></li>
+                                <li style="margin-bottom: 10px;">Aguarde 15-20 segundos</li>
+                                <li style="margin-bottom: 10px;">Clique no botão laranja <strong>"Get QR Code"</strong></li>
+                                <li>Escaneie o QR Code com seu WhatsApp</li>
+                            </ol>
+                        </div>
+                        <a href="http://localhost:8080/manager" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%); color: white; padding: 15px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
+                            🚀 Abrir Evolution Manager
+                        </a>
+                        <p style="color: #6b7280; margin-top: 15px; font-size: 12px;">💡 O Manager é a forma mais confiável de obter o QR Code!</p>
+                    </div>
+                `;
+            } finally {
+                refreshBtn.disabled = false;
+            }
+        }
+
+        function displayQRCode(data) {
+            const statusDiv = document.getElementById('status');
+            const qrContent = document.getElementById('qrContent');
+
+            // A Evolution API pode retornar o QR Code de diferentes formas
+            if (data.qrcode && data.qrcode.base64) {
+                // QR Code em base64
+                const img = document.createElement('img');
+                img.src = `data:image/png;base64,${data.qrcode.base64}`;
+                img.className = 'qr-code';
+                img.alt = 'QR Code WhatsApp';
+                qrContent.innerHTML = '';
+                qrContent.appendChild(img);
+                statusDiv.className = 'status';
+                statusDiv.textContent = 'Escaneie o QR Code com seu WhatsApp';
+            } else if (data.qrcode && data.qrcode.code) {
+                // QR Code como código
+                qrContent.innerHTML = `<p style="color: #6b7280;">Código: ${data.qrcode.code}</p>`;
+                statusDiv.className = 'status';
+                statusDiv.textContent = 'Use o código acima no WhatsApp';
+            } else if (data.base64) {
+                // QR Code direto em base64
+                const img = document.createElement('img');
+                img.src = `data:image/png;base64,${data.base64}`;
+                img.className = 'qr-code';
+                img.alt = 'QR Code WhatsApp';
+                qrContent.innerHTML = '';
+                qrContent.appendChild(img);
+                statusDiv.className = 'status';
+                statusDiv.textContent = 'Escaneie o QR Code com seu WhatsApp';
+            } else {
+                // QR Code não encontrado - mostrar instruções para usar Manager
+                statusDiv.className = 'status error';
+                statusDiv.textContent = 'QR Code não disponível. Use o Evolution Manager.';
+                qrContent.innerHTML = `
+                    <div style="padding: 25px;">
+                        <div style="background: #fef3c7; border: 2px solid #fbbf24; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                            <p style="color: #92400e; font-weight: 700; margin-bottom: 15px; font-size: 18px;">📱 Use o Evolution Manager</p>
+                            <p style="color: #78350f; margin-bottom: 20px;">O QR Code precisa ser gerado no Manager. Siga os passos:</p>
+                            <ol style="color: #78350f; text-align: left; margin-left: 25px; line-height: 1.8;">
+                                <li style="margin-bottom: 10px;">Clique no botão abaixo</li>
+                                <li style="margin-bottom: 10px;">Login: <code style="background: #fde68a; padding: 4px 8px; border-radius: 4px;">FlowGest2024SecretKey!</code></li>
+                                <li style="margin-bottom: 10px;">Clique em "RESTART" (verde)</li>
+                                <li style="margin-bottom: 10px;">Aguarde 15 segundos</li>
+                                <li>Clique em "Get QR Code" (laranja)</li>
+                            </ol>
+                        </div>
+                        <a href="http://localhost:8080/manager" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%); color: white; padding: 15px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
+                            🚀 Abrir Evolution Manager
+                        </a>
+                    </div>
+                `;
+            }
+
+            // Verificar status da conexão periodicamente
+            checkConnectionStatus();
+        }
+
+        async function checkConnectionStatus() {
+            try {
+                const response = await fetch(`${API_URL}/instance/connectionState/${INSTANCE_NAME}`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': API_KEY
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const statusDiv = document.getElementById('status');
+                    
+                    if (data.state === 'open') {
+                        statusDiv.className = 'status success';
+                        statusDiv.textContent = '✅ WhatsApp conectado com sucesso!';
+                        document.getElementById('qrContent').innerHTML = '<p style="color: #065f46; font-size: 18px; font-weight: 600;">✅ Conectado!</p>';
+                    } else {
+                        // Continuar verificando
+                        setTimeout(checkConnectionStatus, 3000);
+                    }
+                }
+            } catch (error) {
+                // Ignorar erros de verificação
+            }
+        }
+
+        async function reiniciarInstancia() {
+            try {
+                console.log('Reiniciando instância...');
+                const response = await fetch(`${API_URL}/instance/restart/${INSTANCE_NAME}`, {
+                    method: 'PUT',
+                    headers: {
+                        'apikey': API_KEY,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    console.log('✅ Instância reiniciada!');
+                    return true;
+                } else {
+                    console.log('⚠️  Não foi possível reiniciar (pode ser normal)');
+                    return false;
+                }
+            } catch (error) {
+                console.log('⚠️  Erro ao reiniciar:', error.message);
+                return false;
+            }
+        }
+
+        // Carregar QR Code ao abrir a página
+        window.onload = loadQRCode;
+
+        // Verificar status a cada 3 segundos
+        setInterval(checkConnectionStatus, 3000);
+    </script>
+</body>
+</html>
+

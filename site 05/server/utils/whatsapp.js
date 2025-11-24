@@ -11,7 +11,11 @@ const sendWhatsAppMessage = async (phone, message) => {
   try {
     const whatsappApiUrl = process.env.WHATSAPP_API_URL;
     const whatsappApiKey = process.env.WHATSAPP_API_KEY;
-    const whatsappInstance = process.env.WHATSAPP_INSTANCE || 'default';
+    // Para Z-API, usar Instance ID correto se provider for zapi
+    let whatsappInstance = process.env.WHATSAPP_INSTANCE || 'default';
+    if (process.env.WHATSAPP_PROVIDER === 'zapi' && whatsappInstance === 'FlowGest') {
+      whatsappInstance = '3EAAFE5FE9E5C1E3453A1E9814A1DE6D';
+    }
 
     // Se não estiver configurado, apenas logar
     if (!whatsappApiUrl || !whatsappApiKey) {
@@ -31,7 +35,8 @@ const sendWhatsAppMessage = async (phone, message) => {
     const config = {
       apiUrl: whatsappApiUrl,
       apiKey: whatsappApiKey,
-      instance: whatsappInstance
+      instance: whatsappInstance,
+      clientToken: process.env.WHATSAPP_CLIENT_TOKEN // Client-Token para Z-API
     };
 
     let result;

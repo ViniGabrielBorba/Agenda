@@ -129,7 +129,7 @@ export default function RelatoriosPage() {
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <BackButton href="/dashboard/profissional" />
-              <h1 className="text-xl font-bold text-pink-600 dark:text-pink-400 ml-4">Relatórios</h1>
+              <h1 className="text-xl font-bold text-brown-700 dark:text-brown-500 ml-4">Relatórios</h1>
             </div>
           </div>
         </div>

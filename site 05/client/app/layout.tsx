@@ -1,13 +1,16 @@
 'use client'
 
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Cormorant_Garamond } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
-import { Toaster } from 'react-hot-toast'
+import CustomToaster from '@/components/CustomToaster'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
+const cormorant = Cormorant_Garamond({ 
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-cormorant'
+})
 
 export default function RootLayout({
   children,
@@ -22,11 +25,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${inter.variable} ${playfair.variable} font-sans`}>
+      <body className={`${cormorant.variable} font-sans`}>
         <ThemeProvider>
           <AuthProvider>
             {children}
-            <Toaster position="top-right" />
+            <CustomToaster />
           </AuthProvider>
         </ThemeProvider>
         <script

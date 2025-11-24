@@ -28,6 +28,7 @@
     "stripe": "^14.7.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "open": "^11.0.0"
   }
 }

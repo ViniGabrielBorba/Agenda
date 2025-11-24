@@ -121,7 +121,7 @@ export default function PerfilPage() {
               <div className="w-12 h-12 gradient-pink rounded-xl flex items-center justify-center shadow-elegant mr-3">
                 <span className="text-white text-xl font-bold font-display">FG</span>
               </div>
-              <h1 className="text-xl font-display font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-xl font-display font-bold bg-gradient-to-r from-brown-700 to-brown-800 bg-clip-text text-transparent">
                 FlowGest
               </h1>
             </div>

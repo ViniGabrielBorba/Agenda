@@ -99,21 +99,21 @@ export default function ClienteDashboard() {
   if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center gradient-soft">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600 dark:border-pink-400"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brown-700 dark:border-brown-500"></div>
       </div>
     )
   }
 
   return (
     <div className="min-h-screen gradient-soft">
-      <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-pink-100 dark:border-purple-900/50">
+      <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-brown-200 dark:border-purple-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20">
             <div className="flex items-center">
               <div className="w-12 h-12 gradient-pink rounded-xl flex items-center justify-center shadow-elegant mr-3">
                 <span className="text-white text-xl font-bold font-display">FG</span>
               </div>
-              <h1 className="text-xl font-display font-bold bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
+              <h1 className="text-xl font-display font-bold bg-gradient-to-r from-brown-700 to-brown-800 dark:from-brown-500 dark:to-brown-600 bg-clip-text text-transparent">
                 FlowGest
               </h1>
             </div>
@@ -122,12 +122,12 @@ export default function ClienteDashboard() {
               <Link href="/agendar" className="gradient-pink text-white px-6 py-2 rounded-xl text-sm font-semibold hover:shadow-elegant transition-all">
                 ✨ Novo Agendamento
               </Link>
-              <Link href="/perfil" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+              <Link href="/perfil" className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                 Perfil
               </Link>
               <button
                 onClick={logout}
-                className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 Sair
               </button>
@@ -162,14 +162,14 @@ export default function ClienteDashboard() {
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{appointment.service.name}</h3>
-                        <p className="text-sm text-pink-600 dark:text-pink-400 font-medium">✨ {appointment.professional.name}</p>
+                        <p className="text-sm text-brown-700 dark:text-brown-500 font-medium">✨ {appointment.professional.name}</p>
                       </div>
                     </div>
                     <div className="ml-16 space-y-2">
                       <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
                         📅 {format(new Date(appointment.startTime), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
                       </p>
-                      <p className="text-lg font-bold text-pink-600 dark:text-pink-400">
+                      <p className="text-lg font-bold text-brown-700 dark:text-brown-500">
                         R$ {appointment.service.price.toFixed(2)}
                       </p>
                     </div>
@@ -191,7 +191,7 @@ export default function ClienteDashboard() {
                         <>
                           <Link
                             href={`/agendamentos/${appointment.id}/reagendar`}
-                            className="text-sm text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-500 font-medium px-3 py-1.5 rounded-lg bg-pink-50 dark:bg-pink-900/20 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors border border-pink-200 dark:border-pink-800"
+                            className="text-sm text-brown-700 dark:text-brown-500 hover:text-brown-700 dark:hover:text-brown-600 font-medium px-3 py-1.5 rounded-lg bg-brown-100 dark:bg-brown-900/20 hover:bg-brown-200 dark:hover:bg-brown-900/30 transition-colors border border-brown-300 dark:border-brown-800"
                           >
                             🔄 Reagendar
                           </Link>
@@ -202,6 +202,14 @@ export default function ClienteDashboard() {
                             ⏸️ Cancelar
                           </button>
                         </>
+                      )}
+                      {appointment.status === 'COMPLETED' && (
+                        <Link
+                          href={`/avaliar/${appointment.id}`}
+                          className="text-sm text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-500 font-medium px-3 py-1.5 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 hover:bg-yellow-100 dark:hover:bg-yellow-900/30 transition-colors border border-yellow-200 dark:border-yellow-800"
+                        >
+                          ⭐ Avaliar
+                        </Link>
                       )}
                       {(appointment.status === 'CANCELLED' || appointment.status === 'COMPLETED') && (
                         <button
@@ -215,7 +223,7 @@ export default function ClienteDashboard() {
                   </div>
                 </div>
                 {appointment.payment && (
-                  <div className="mt-4 pt-4 border-t border-pink-100">
+                  <div className="mt-4 pt-4 border-t border-brown-200">
                     <p className="text-sm text-gray-600 flex items-center">
                       💳 Pagamento: 
                       <span className={`ml-2 font-semibold ${

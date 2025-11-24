@@ -1,0 +1,52 @@
+==========================================
+  FLOWGEST - LINKS DE ACESSO
+==========================================
+
+LINK PRINCIPAL:
+http://localhost:3000
+
+==========================================
+
+PAGINAS PRINCIPAIS:
+
+Login:
+http://localhost:3000/login
+
+Dashboard Cliente:
+http://localhost:3000/dashboard/cliente
+
+Dashboard Profissional:
+http://localhost:3000/dashboard/profissional
+
+==========================================
+
+NOVAS FUNCIONALIDADES:
+
+Analytics:
+http://localhost:3000/analytics
+
+Avaliacoes:
+http://localhost:3000/avaliacoes
+
+Portfolio:
+http://localhost:3000/portfolio
+
+==========================================
+
+COMO ACESSAR:
+
+1. Certifique-se que o BACKEND esta rodando na porta 5000
+2. Certifique-se que o FRONTEND esta rodando na porta 3000
+3. Abra seu navegador
+4. Acesse: http://localhost:3000
+
+==========================================
+
+Se nao abrir, verifique:
+- Backend rodando? (porta 5000)
+- Frontend rodando? (porta 3000)
+- Navegador atualizado?
+- Firewall bloqueando?
+
+==========================================
+

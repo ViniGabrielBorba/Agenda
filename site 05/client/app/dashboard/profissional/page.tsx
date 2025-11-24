@@ -91,41 +91,50 @@ export default function ProfissionalDashboard() {
   if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center gradient-soft">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600 dark:border-pink-400"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brown-700 dark:border-brown-500"></div>
       </div>
     )
   }
 
   return (
     <div className="min-h-screen gradient-soft">
-      <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-pink-100 dark:border-purple-900/50">
+      <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-brown-200 dark:border-purple-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20">
             <div className="flex items-center">
               <div className="w-12 h-12 gradient-pink rounded-xl flex items-center justify-center shadow-elegant mr-3">
                 <span className="text-white text-xl font-bold font-display">FG</span>
               </div>
-              <h1 className="text-xl font-display font-bold bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
+              <h1 className="text-xl font-display font-bold bg-gradient-to-r from-brown-700 to-brown-800 dark:from-brown-500 dark:to-brown-600 bg-clip-text text-transparent">
                 FlowGest
               </h1>
             </div>
             <div className="flex items-center space-x-4">
               <ThemeToggle />
-              <Link href="/servicos" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+              <Link href="/servicos" className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                 💅 Serviços
               </Link>
-              <Link href="/horarios" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+              <Link href="/horarios" className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                 ⏰ Horários
               </Link>
-              <Link href="/relatorios" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                📊 Relatórios
+              <Link href="/analytics" className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                📊 Analytics
               </Link>
-              <Link href="/perfil" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+              <Link href="/relatorios" className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                📈 Relatórios
+              </Link>
+              <Link href="/avaliacoes" className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                ⭐ Avaliações
+              </Link>
+              <Link href="/portfolio" className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                📸 Portfólio
+              </Link>
+              <Link href="/perfil" className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                 👤 Perfil
               </Link>
               <button
                 onClick={logout}
-                className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                className="text-gray-700 dark:text-gray-300 hover:text-brown-700 dark:hover:text-brown-500 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 Sair
               </button>
@@ -143,7 +152,7 @@ export default function ProfissionalDashboard() {
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total de Agendamentos</h3>
                   <p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-2">{stats.appointments.total}</p>
                 </div>
-                <div className="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-brown-200 dark:bg-brown-900/30 rounded-xl flex items-center justify-center">
                   <span className="text-2xl">📅</span>
                 </div>
               </div>
@@ -174,7 +183,7 @@ export default function ProfissionalDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Receita Total</h3>
-                  <p className="text-3xl font-bold text-pink-600 dark:text-pink-400 mt-2">
+                  <p className="text-3xl font-bold text-brown-700 dark:text-brown-500 mt-2">
                     R$ {stats.revenue.total.toFixed(2)}
                   </p>
                 </div>
@@ -208,7 +217,7 @@ export default function ProfissionalDashboard() {
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold text-gray-900">{appointment.service.name}</h3>
-                        <p className="text-sm text-pink-600 font-medium">👤 {appointment.client.name}</p>
+                        <p className="text-sm text-brown-700 font-medium">👤 {appointment.client.name}</p>
                       </div>
                     </div>
                     <div className="ml-16 space-y-2">
@@ -219,7 +228,7 @@ export default function ProfissionalDashboard() {
                       <p className="text-sm text-gray-600">
                         📅 {format(new Date(appointment.startTime), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
                       </p>
-                      <p className="text-lg font-bold text-pink-600">
+                      <p className="text-lg font-bold text-brown-700">
                         R$ {appointment.service.price.toFixed(2)}
                       </p>
                     </div>

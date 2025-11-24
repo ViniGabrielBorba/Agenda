@@ -353,12 +353,60 @@ router.patch('/:id/status', authenticate, [
     });
 
     // Notificar mudança de status
-    if (status === 'CANCELLED' || status === 'CONFIRMED') {
-      try {
+    try {
+      if (status === 'CANCELLED') {
+        // Notificar cancelamento
+        if (updatedAppointment.client.phone) {
+          const cancelMessage = `❌ *Agendamento Cancelado*\n\n` +
+            `Seu agendamento foi cancelado:\n\n` +
+            `💅 *Serviço:* ${updatedAppointment.service.name}\n` +
+            `📅 *Data:* ${new Date(updatedAppointment.startTime).toLocaleDateString('pt-BR', { 
+              weekday: 'long', 
+              day: 'numeric', 
+              month: 'long' 
+            })}\n` +
+            `⏰ *Horário:* ${new Date(updatedAppointment.startTime).toLocaleTimeString('pt-BR', { 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            })}\n\n` +
+            `💬 Deseja reagendar? Entre em contato conosco!\n\n` +
+            `✨ FlowGest`;
+          await sendWhatsAppMessage(updatedAppointment.client.phone, cancelMessage);
+        }
+      } else if (status === 'CONFIRMED') {
+        // Notificar confirmação
         await sendConfirmationEmail(updatedAppointment);
-      } catch (error) {
-        console.error('Erro ao enviar notificação:', error);
+        if (updatedAppointment.client.phone) {
+          const confirmMessage = `✅ *Agendamento Confirmado!*\n\n` +
+            `Seu agendamento foi confirmado:\n\n` +
+            `💅 *Serviço:* ${updatedAppointment.service.name}\n` +
+            `👤 *Profissional:* ${updatedAppointment.professional.name}\n` +
+            `📅 *Data:* ${new Date(updatedAppointment.startTime).toLocaleDateString('pt-BR', { 
+              weekday: 'long', 
+              day: 'numeric', 
+              month: 'long' 
+            })}\n` +
+            `⏰ *Horário:* ${new Date(updatedAppointment.startTime).toLocaleTimeString('pt-BR', { 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            })}\n\n` +
+            `✨ Nos vemos em breve!`;
+          await sendWhatsAppMessage(updatedAppointment.client.phone, confirmMessage);
+        }
+      } else if (status === 'COMPLETED') {
+        // Notificar conclusão e solicitar avaliação
+        if (updatedAppointment.client.phone) {
+          const completeMessage = `🎉 *Serviço Concluído!*\n\n` +
+            `Obrigado por escolher FlowGest!\n\n` +
+            `💅 *Serviço:* ${updatedAppointment.service.name}\n` +
+            `👤 *Profissional:* ${updatedAppointment.professional.name}\n\n` +
+            `⭐ Que tal avaliar nosso serviço? Sua opinião é muito importante para nós!\n\n` +
+            `✨ FlowGest`;
+          await sendWhatsAppMessage(updatedAppointment.client.phone, completeMessage);
+        }
       }
+    } catch (error) {
+      console.error('Erro ao enviar notificação:', error);
     }
 
     res.json({
@@ -433,9 +481,28 @@ router.put('/:id/reschedule', authenticate, [
       }
     });
 
-    // Enviar notificação
+    // Enviar notificação de remarcação
     try {
       await sendConfirmationEmail(updatedAppointment);
+      if (updatedAppointment.client.phone) {
+        const rescheduleMessage = `🔄 *Agendamento Remarcado!*\n\n` +
+          `Seu agendamento foi remarcado para:\n\n` +
+          `💅 *Serviço:* ${updatedAppointment.service.name}\n` +
+          `👤 *Profissional:* ${updatedAppointment.professional.name}\n` +
+          `📅 *Nova Data:* ${new Date(updatedAppointment.startTime).toLocaleDateString('pt-BR', { 
+            weekday: 'long', 
+            day: 'numeric', 
+            month: 'long',
+            year: 'numeric'
+          })}\n` +
+          `⏰ *Novo Horário:* ${new Date(updatedAppointment.startTime).toLocaleTimeString('pt-BR', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+          })}\n` +
+          `💰 *Valor:* R$ ${updatedAppointment.service.price.toFixed(2)}\n\n` +
+          `✨ Anote na sua agenda!`;
+        await sendWhatsAppMessage(updatedAppointment.client.phone, rescheduleMessage);
+      }
     } catch (error) {
       console.error('Erro ao enviar notificação:', error);
     }

@@ -47,34 +47,70 @@ const sendViaEvolutionAPI = async (phone, message, config) => {
 
 /**
  * Envia mensagem via Z-API
+ * Formato Z-API: https://api.z-api.io/instances/{instanceId}/token/{token}/send-text
+ * Headers: Client-Token (token separado, diferente do token da URL)
  */
 const sendViaZAPI = async (phone, message, config) => {
   try {
-    const { apiUrl, apiKey } = config;
+    const { apiUrl, apiKey, instance, clientToken } = config;
+    // apiKey = Instance Token (usado na URL)
+    // clientToken = Client-Token (usado no header)
     
     let formattedPhone = phone.replace(/\D/g, '');
     if (!formattedPhone.startsWith('55')) {
       formattedPhone = '55' + formattedPhone;
     }
 
+    // Z-API usa formato: /instances/{instanceId}/token/{instanceToken}/send-text
+    // Client-Token vai no header
+    
+    let url;
+    if (apiUrl.includes('/instances/') && apiUrl.includes('/token/')) {
+      // URL já está no formato completo
+      url = apiUrl;
+      if (!url.endsWith('/send-text')) {
+        url = url.replace(/\/$/, '') + '/send-text';
+      }
+    } else if (instance && apiKey) {
+      // Construir URL com instance e token
+      const baseUrl = apiUrl.replace(/\/instances\/.*$/, '').replace(/\/$/, '');
+      url = `${baseUrl}/instances/${instance}/token/${apiKey}/send-text`;
+    } else {
+      // Formato antigo (compatibilidade)
+      url = `${apiUrl}/send-text`;
+    }
+
+    // Headers: sempre incluir Client-Token se disponível
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    };
+
+    // Se tiver Client-Token configurado, usar ele
+    if (clientToken) {
+      headers['Client-Token'] = clientToken;
+    } else if (apiKey) {
+      // Fallback: tentar usar apiKey como Client-Token (pode funcionar em alguns casos)
+      headers['Client-Token'] = apiKey;
+    }
+
     const response = await axios.post(
-      `${apiUrl}/send-text`,
+      url,
       {
         phone: formattedPhone,
         message: message
       },
       {
-        headers: {
-          'Content-Type': 'application/json',
-          'Client-Token': apiKey
-        },
-        timeout: 10000
+        headers: headers,
+        timeout: 15000
       }
     );
 
     return { success: true, response: response.data };
   } catch (error) {
-    throw new Error(`Z-API: ${error.response?.data?.message || error.message}`);
+    const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message;
+    const errorDetails = error.response?.data ? JSON.stringify(error.response.data, null, 2) : '';
+    throw new Error(`Z-API: ${errorMessage}${errorDetails ? '\n' + errorDetails : ''}`);
   }
 };
 

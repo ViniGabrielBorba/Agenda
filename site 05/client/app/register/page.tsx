@@ -53,8 +53,8 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center gradient-soft py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Decoração de fundo */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-brown-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brown-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
       </div>
 
       <div className="max-w-md w-full space-y-8 relative z-10">
@@ -64,7 +64,7 @@ export default function RegisterPage() {
               <span className="text-white text-3xl font-bold font-display">FG</span>
             </div>
           </div>
-          <h2 className="text-4xl font-display font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-display font-bold bg-gradient-to-r from-brown-700 to-brown-800 bg-clip-text text-transparent">
             FlowGest
           </h2>
           <p className="mt-2 text-sm text-gray-600">
@@ -87,7 +87,7 @@ export default function RegisterPage() {
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                className="w-full px-4 py-3 border border-brown-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50"
                 placeholder="Seu nome"
                 required
               />
@@ -101,7 +101,7 @@ export default function RegisterPage() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                className="w-full px-4 py-3 border border-brown-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50"
                 placeholder="seu@email.com"
                 required
               />
@@ -115,7 +115,7 @@ export default function RegisterPage() {
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                className="w-full px-4 py-3 border border-brown-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50"
                 placeholder="(11) 99999-9999"
               />
             </div>
@@ -127,7 +127,7 @@ export default function RegisterPage() {
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
-                className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                className="w-full px-4 py-3 border border-brown-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50"
               >
                 <option value="CLIENT">👤 Cliente</option>
                 <option value="PROFESSIONAL">💼 Profissional</option>
@@ -142,7 +142,7 @@ export default function RegisterPage() {
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                className="w-full px-4 py-3 border border-brown-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50"
                 placeholder="Mínimo 6 caracteres"
                 required
                 minLength={6}
@@ -157,7 +157,7 @@ export default function RegisterPage() {
                 type="password"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all bg-pink-50/50"
+                className="w-full px-4 py-3 border border-brown-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brown-600 focus:border-transparent transition-all bg-brown-100/50"
                 placeholder="Digite a senha novamente"
                 required
                 minLength={6}
@@ -186,7 +186,7 @@ export default function RegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Já tem uma conta?{' '}
-              <Link href="/login" className="font-semibold text-pink-600 hover:text-pink-700 transition-colors">
+              <Link href="/login" className="font-semibold text-brown-700 hover:text-brown-700 transition-colors">
                 Entre aqui
               </Link>
             </p>
