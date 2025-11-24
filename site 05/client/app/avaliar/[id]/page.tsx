@@ -55,7 +55,7 @@ export default function AvaliarPage() {
       
       // Verificar se já existe avaliação
       if (response.data.appointment.review) {
-        toast.info('Você já avaliou este agendamento')
+        toast('Você já avaliou este agendamento', { icon: 'ℹ️' })
         router.push('/dashboard/cliente')
       }
     } catch (error: any) {
@@ -73,9 +73,9 @@ export default function AvaliarPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-pink-100 dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-brown-50 via-nude-100 to-brown-100 dark:from-gray-900 dark:via-brown-900 dark:to-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brown-600 mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-300">Carregando...</p>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default function AvaliarPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-pink-100 dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-brown-50 via-nude-100 to-brown-100 dark:from-gray-900 dark:via-brown-900 dark:to-gray-900 p-4">
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
