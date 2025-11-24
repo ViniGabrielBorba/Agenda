@@ -1,0 +1,4 @@
+# Ignorar tudo exceto a pasta client
+!client
+*
+
